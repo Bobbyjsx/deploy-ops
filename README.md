@@ -36,7 +36,6 @@ Application Repository (CircleCI)
 - `TAILSCALE_AUTH_KEY`: Pre-approved ephemeral auth key to join the Tailscale network.
 - `DEPLOY_HOST`: Remote VM's Tailscale IP or MagicDNS hostname.
 - `DEPLOY_USER`: Remote VM SSH user.
-- `DEPLOY_SSH_KEY`: (Optional) Private SSH key for the remote host. (Passwordless/keyless SSH can be used if configured via Tailscale SSH).
 
 ### Environment Handling (Secrets)
 Applications can pass configuration using either:
@@ -146,7 +145,7 @@ workflows:
 ```
 
 **Contexts Required:**
-You must attach the corresponding `deploy-ops` infrastructure context in your CircleCI workflow to provide `TAILSCALE_AUTH_KEY`, `DEPLOY_HOST`, `DEPLOY_USER`, and optionally `DEPLOY_SSH_KEY` / `DEPLOY_HOST_KEY`. Additionally, attach any application-specific secret contexts required for your `.env` variables.
+You must attach the corresponding `deploy-ops` infrastructure context in your CircleCI workflow to provide `TAILSCALE_AUTH_KEY`, `DEPLOY_HOST`, and `DEPLOY_USER`. Additionally, attach any application-specific secret contexts required for your `.env` variables.
 
 ## Security Considerations
 - `set -euo pipefail` is used strictly.
