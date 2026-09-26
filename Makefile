@@ -24,11 +24,18 @@ test:
 setup-network:
 	@./scripts/setup-tailscale.sh
 
+teardown-network:
+	@echo "Logging out of Tailscale to remove ephemeral node..."
+	@sudo tailscale logout || true
+
 build:
 	@./scripts/build.sh
 
 deploy: setup-network
-	@./scripts/deploy.sh
+	@./scripts/deploy.sh; \
+	EXIT_CODE=$$?; \
+	$(MAKE) teardown-network; \
+	exit $$EXIT_CODE
 
 
 rollback:
