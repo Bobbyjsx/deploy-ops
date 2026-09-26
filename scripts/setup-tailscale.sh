@@ -33,9 +33,9 @@ $SUDO tailscaled --state=mem: --socket="$TS_SOCKET" --tun=userspace-networking -
 echo "Waiting for tailscaled to start..."
 attempt=1
 max_attempts=10
-while ! $SUDO tailscale --socket="$TS_SOCKET" status &> /dev/null; do
+while [ ! -S "$TS_SOCKET" ]; do
     if [[ $attempt -ge $max_attempts ]]; then
-        echo "ERROR: tailscaled failed to start." >&2
+        echo "ERROR: tailscaled failed to start or create socket." >&2
         cat /tmp/tailscaled.log >&2
         exit 1
     fi
