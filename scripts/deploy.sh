@@ -72,7 +72,8 @@ echo "Transferring container execution script..."
 "$DIR/remote.sh" exec "chmod +x $REMOTE_DIR/container.sh"
 
 echo "Executing container update remotely..."
-"$DIR/remote.sh" exec "$REMOTE_DIR/container.sh" update "$CONTAINER_NAME" "$IMAGE_REF" "$DOCKER_RUN_OPTS"
+# Pass as a single command string to SSH, wrapping DOCKER_RUN_OPTS in single quotes so the remote shell treats it as $4
+"$DIR/remote.sh" exec "$REMOTE_DIR/container.sh update \"$CONTAINER_NAME\" \"$IMAGE_REF\" '$DOCKER_RUN_OPTS'"
 
 # Health Check
 echo "Transferring health-check script..."
@@ -80,6 +81,6 @@ echo "Transferring health-check script..."
 "$DIR/remote.sh" exec "chmod +x $REMOTE_DIR/health-check.sh"
 
 echo "Running health check..."
-"$DIR/remote.sh" exec "$REMOTE_DIR/health-check.sh" "$CONTAINER_NAME" "${HEALTHCHECK_URL:-}" "${HEALTHCHECK_TIMEOUT:-30}" "${HEALTHCHECK_RETRIES:-3}"
+"$DIR/remote.sh" exec "$REMOTE_DIR/health-check.sh \"$CONTAINER_NAME\" \"${HEALTHCHECK_URL:-}\" \"${HEALTHCHECK_TIMEOUT:-30}\" \"${HEALTHCHECK_RETRIES:-3}\""
 
 echo "Deployment completed successfully for $CONTAINER_NAME ($IMAGE_REF)"
