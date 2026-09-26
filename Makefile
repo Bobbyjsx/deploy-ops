@@ -26,7 +26,7 @@ setup-network:
 
 teardown-network:
 	@echo "Logging out of Tailscale to remove ephemeral node..."
-	@sudo tailscale logout || true
+	@sudo tailscale --socket=/tmp/tailscaled.sock logout || true
 
 build:
 	@./scripts/build.sh
