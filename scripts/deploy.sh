@@ -30,7 +30,10 @@ if [[ -n "${ENV_DECLARATION_FILE:-}" && -f "$ENV_DECLARATION_FILE" ]]; then
             # Trim whitespace
             key=$(echo "$key" | xargs)
             if [[ -n "${!key+x}" ]]; then
-                echo "$key=${!key}" >> "$RUNTIME_ENV_TMP"
+                # Strip actual newlines because Docker's --env-file does not support them.
+                # (JSON remains valid, and literal \n in PEM keys are unaffected).
+                CLEAN_VAL=$(echo -n "${!key}" | tr -d '\n' | tr -d '\r')
+                echo "$key=$CLEAN_VAL" >> "$RUNTIME_ENV_TMP"
             fi
         fi
     done < "$ENV_DECLARATION_FILE"
