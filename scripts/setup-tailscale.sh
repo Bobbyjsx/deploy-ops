@@ -27,8 +27,8 @@ fi
 TS_SOCKET="/tmp/tailscaled.sock"
 
 echo "Starting tailscaled..."
-# Use in-memory state and predictable socket.
-$SUDO tailscaled --state=mem: --socket="$TS_SOCKET" > /tmp/tailscaled.log 2>&1 &
+# Use in-memory state and predictable socket. Also enforce userspace networking for CI containers.
+$SUDO tailscaled --state=mem: --socket="$TS_SOCKET" --tun=userspace-networking --socks5-server=localhost:1055 > /tmp/tailscaled.log 2>&1 &
 
 echo "Waiting for tailscaled to start..."
 attempt=1

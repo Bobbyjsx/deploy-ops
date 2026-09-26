@@ -18,6 +18,7 @@ SSH_OPTS=(
     "-o" "UserKnownHostsFile=/dev/null"
     "-o" "PasswordAuthentication=no"
     "-o" "IdentitiesOnly=yes" # Do not attempt to use local OpenSSH keys
+    "-o" "ProxyCommand=nc -X 5 -x 127.0.0.1:1055 %h %p" # Route through Tailscale userspace proxy
 )
 
 ACTION="${1:-}"
