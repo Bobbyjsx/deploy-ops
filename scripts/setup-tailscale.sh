@@ -54,5 +54,6 @@ echo "Tailscale connection established."
 $SUDO tailscale --socket="$TS_SOCKET" status
 $SUDO tailscale --socket="$TS_SOCKET" ip
 
-# We alias tailscale or set TS_SOCKET environment variable so subsequent tailscale commands work if needed
-# However, for ssh/scp, if tailscale provides standard TUN networking, regular ssh works.
+# Wait for WireGuard data plane and DERP relays to establish routes
+echo "Waiting 5 seconds for Tailnet routes to converge..."
+sleep 5
