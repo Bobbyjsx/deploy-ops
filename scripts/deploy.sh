@@ -39,6 +39,11 @@ elif [[ -n "${DEPLOY_ENV_FILE:-}" && -f "$DEPLOY_ENV_FILE" ]]; then
     cat "$DEPLOY_ENV_FILE" > "$RUNTIME_ENV_TMP"
 fi
 
+if [[ -n "${REGISTRY_PASSWORD:-}" && -n "${REGISTRY_USERNAME:-}" && -n "${REGISTRY:-}" ]]; then
+    echo "Logging into remote registry..."
+    echo "$REGISTRY_PASSWORD" | "$DIR/remote.sh" exec "docker login $REGISTRY -u '$REGISTRY_USERNAME' --password-stdin"
+fi
+
 # Ensure remote deployment directory structure
 REMOTE_DIR="/opt/deploy/services/$CONTAINER_NAME"
 echo "Setting up remote directory structure..."
