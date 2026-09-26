@@ -10,6 +10,7 @@ export DEPLOY_USER="fake-user"
 export CONTAINER_NAME="test-container"
 export ENV_DECLARATION_FILE=$(mktemp)
 export DB_PASS="secret_password"
+export SKIP_TAILSCALE="true"
 echo "DB_PASS=" > "$ENV_DECLARATION_FILE"
 
 # Mock remote/ssh commands

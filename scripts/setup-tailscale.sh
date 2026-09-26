@@ -4,9 +4,14 @@ set -euo pipefail
 # setup-tailscale.sh
 # Establishes an ephemeral Tailscale connection for deployment
 
-if [[ -z "${TAILSCALE_AUTH_KEY:-}" ]]; then
-    echo "TAILSCALE_AUTH_KEY not set. Skipping Tailscale ephemeral setup (assuming host is directly reachable)."
+if [[ "${SKIP_TAILSCALE:-false}" == "true" ]]; then
+    echo "SKIP_TAILSCALE is true. Skipping Tailscale ephemeral setup."
     exit 0
+fi
+
+if [[ -z "${TAILSCALE_AUTH_KEY:-}" ]]; then
+    echo "ERROR: TAILSCALE_AUTH_KEY not set. Deployment cannot establish secure connection." >&2
+    exit 1
 fi
 
 if ! command -v tailscale &> /dev/null; then

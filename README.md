@@ -59,7 +59,7 @@ Secrets are handled securely via temporary files and copied directly into the re
 Validates that required environment variables for build and deploy stages exist.
 
 ### `make setup-network`
-Installs Tailscale and authenticates as an ephemeral node using `$TAILSCALE_AUTH_KEY`. **Must be run before `make deploy`**.
+Installs Tailscale and authenticates as an ephemeral node using `$TAILSCALE_AUTH_KEY`. (Automatically called by `make deploy`).
 
 ### `make build`
 1. Validates build inputs.
@@ -92,7 +92,7 @@ commands:
       - checkout
       - run:
           name: Clone deploy-ops
-          command: git clone --branch master https://github.com/<your-org>/deploy-ops.git
+          command: git clone --branch main https://github.com/<your-org>/deploy-ops.git
       - run:
           name: Build and Deploy
           # Note: The deploy-ops scripts will read variables declared in .env.example
