@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export LC_ALL=C
+export LANG=C
+
 # container.sh
 # Runs ON THE REMOTE VM to manage container lifecycle
 
